@@ -1,6 +1,8 @@
 <template>
   <div class="relation">
-    <Person v-for="(person,idx) in people" :key="idx" :personInfo="person" />
+    <div class="family">
+      <Person v-for="(person,idx) in people" :key="idx" :personInfo="person" />
+    </div>
     <template v-if="children">
       <div
         class="expand-children"
@@ -41,7 +43,9 @@ export default {
 .relation {
   margin: 40px 0;
   padding-left: 50px;
-  border-left: 2px solid #000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 .expand-children {
   height: 40px;
@@ -64,5 +68,8 @@ export default {
 }
 .expand-children.expanded::after {
   content: "-";
+}
+.all-children {
+    display: flex;
 }
 </style>

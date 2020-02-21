@@ -123,4 +123,7 @@ export default {
 <style>
 #app {
 }
+.family {
+  display: flex;
+}
 </style>
