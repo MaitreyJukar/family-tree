@@ -1,5 +1,5 @@
 <template>
-  <div class="person">
+  <div class="person" :class="gender">
     <div class="person-image">
       <img :src="image" />
     </div>
@@ -53,32 +53,43 @@ export default {
     },
     image: function() {
       return this.personInfo.image ? this.personInfo.image : DUMMY_IMG;
+    },
+    gender: function() {
+      return this.personInfo.gender ? this.personInfo.gender.toLowerCase() : "";
     }
   }
 };
 </script>
 <style scoped>
 .person {
-  height: 300px;
-  width: 300px;
+  height: 170px;
+  width: 120px;
   display: inline-flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   border-radius: 20px;
-  border: 2px solid #585cb2;
-  font-size: 28px;
   background: black;
+  font-size: 12px;
   color: white;
   font-family: TrebuchetMS;
   padding: 20px;
   margin: 20px;
   vertical-align: middle;
+  box-shadow: 3px 3px 5px 6px #ccc;
+}
+
+.person.male {
+  background: linear-gradient(to bottom, rgb(0, 198, 255), rgb(0, 114, 255));
+}
+
+.person.female {
+  background: linear-gradient(to bottom, rgb(157, 80, 187), rgb(110, 72, 170));
 }
 
 .person-image {
-  width: 200px;
-  height: 200px;
+  width: 100px;
+  height: 100px;
   border-radius: 50%;
   overflow: hidden;
   margin-bottom: 20px;
@@ -90,9 +101,11 @@ img {
 
 .person-name {
   margin: 5px;
+  font-size: 12px;
 }
 
 .person-details {
   margin: 5px;
+  font-size: 10px;
 }
 </style>

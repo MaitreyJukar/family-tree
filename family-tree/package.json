@@ -11,7 +11,8 @@
     "axios": "^0.19.2",
     "core-js": "^3.6.4",
     "vue": "^2.6.11",
-    "vue-sorted-table": "^1.2.0"
+    "vue-sorted-table": "^1.2.0",
+    "vue2-transitions": "^0.3.0"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.2.0",

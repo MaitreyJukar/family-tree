@@ -1,28 +1,25 @@
 <template>
   <div class="family-table">
-    <sorted-table :values="people">
+    <SortedTable :values="people" ascIcon="<span> ▲</span>" descIcon="<span> ▼</span>">
       <thead>
         <tr>
           <th scope="col">
-            <sort-link name="id">ID</sort-link>
+            <SortLink name="id">ID</SortLink>
           </th>
           <th scope="col">
-            <sort-link name="firstName">First Name</sort-link>
+            <SortLink name="firstName">First Name</SortLink>
           </th>
           <th scope="col">
-            <sort-link name="lastName">Last Name</sort-link>
+            <SortLink name="lastName">Last Name</SortLink>
           </th>
           <th scope="col">
-            <sort-link name="nickname">Nickname</sort-link>
+            <SortLink name="birthDate">Day</SortLink>
           </th>
           <th scope="col">
-            <sort-link name="birthDate">Day</sort-link>
+            <SortLink name="birthMonth">Month</SortLink>
           </th>
           <th scope="col">
-            <sort-link name="birthMonth">Month</sort-link>
-          </th>
-          <th scope="col">
-            <sort-link name="birthYear">Year</sort-link>
+            <SortLink name="birthYear">Year</SortLink>
           </th>
         </tr>
       </thead>
@@ -31,27 +28,48 @@
           <td>{{ value.id }}</td>
           <td>{{ value.firstName }}</td>
           <td>{{ value.lastName }}</td>
-          <td>{{ value.nickname }}</td>
           <td>{{ value.birthDate }}</td>
           <td>{{ value.birthMonth }}</td>
           <td>{{ value.birthYear }}</td>
         </tr>
       </tbody>
-    </sorted-table>
+    </SortedTable>
   </div>
 </template>
 <script>
+import { SortedTable, SortLink } from "vue-sorted-table";
 export default {
   name: "FamilyTable",
+  components: {
+    SortedTable,
+    SortLink
+  },
   props: {
     people: Array
   }
 };
 </script>
 <style scoped>
-th, td {
-    padding: 20px;
-    border: 1px solid #000;
-    font-size: 20px;
+th,
+td {
+  padding: 20px 50px;
+  border: 1px solid #000;
+  font-size: 20px;
+  font-family: TrebuchetMS;
+  text-align: center;
+}
+
+th a {
+  color: white;
+  text-decoration: none;
+}
+
+table {
+  border-collapse: collapse;
+}
+
+thead {
+  background: #ea6152;
+  text-transform: uppercase;
 }
 </style>

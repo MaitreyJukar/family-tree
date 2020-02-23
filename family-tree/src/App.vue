@@ -1,7 +1,22 @@
 <template>
   <div id="app">
-    <!-- <FamilyTable :people="allData" /> -->
-    <div class="family">
+    <div class="header">
+      <button
+        class="header-button tree"
+        :class="{'active': currentApp == 'tree'}"
+        @click="currentApp = 'tree'"
+      >
+        <IconTree />
+      </button>
+      <button
+        class="header-button table"
+        :class="{'active': currentApp == 'table'}"
+        @click="currentApp = 'table'"
+      >
+        <IconTable />
+      </button>
+    </div>
+    <div class="family" v-if="currentApp=='tree'">
       <Relation
         v-for="(relation, idx) in family"
         :key="idx"
@@ -9,6 +24,7 @@
         :children="relation.children"
       />
     </div>
+    <FamilyTable class="family-table" :people="allData" v-if="currentApp=='table'" />
   </div>
 </template>
 
@@ -16,12 +32,16 @@
 import Relation from "./components/Relation";
 import FamilyTable from "./components/FamilyTable";
 import axios from "axios";
+import IconTable from "./components/icons/IconTable";
+import IconTree from "./components/icons/IconTree";
 
 export default {
   name: "App",
   components: {
     Relation,
-    FamilyTable
+    FamilyTable,
+    IconTable,
+    IconTree
   },
   data: function() {
     return {
@@ -30,7 +50,8 @@ export default {
       relations: [],
       people: {},
       relationMap: {},
-      pendingParents: {}
+      pendingParents: {},
+      currentApp: "table"
     };
   },
   mounted() {
@@ -122,8 +143,39 @@ export default {
 
 <style>
 #app {
+  padding-left: 40px;
 }
 .family {
   display: flex;
+}
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 40px;
+  z-index: 0;
+  margin: 0 auto;
+  background-color: #2c2c2c;
+  flex-direction: column;
+  display: flex;
+  height: 100%;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.header-button {
+  background: none;
+  border: none;
+  margin: 5px;
+  cursor: pointer;
+  height: 40px;
+}
+
+.header-button:hover {
+  background: #888;
+}
+
+.header-button.active {
+  background: #666;
 }
 </style>

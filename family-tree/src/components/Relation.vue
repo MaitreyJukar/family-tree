@@ -9,24 +9,28 @@
         :class="{expanded: showChildren}"
         @click="showChildren=!showChildren"
       ></div>
-      <div class="all-children" v-if="showChildren">
-        <Relation
-          v-for="(relation, idx) in children"
-          :key="idx"
-          :people="relation.people"
-          :children="relation.children"
-        />
-      </div>
+      <CollapseTransition>
+        <div class="all-children" v-if="showChildren">
+          <Relation
+            v-for="(relation, idx) in children"
+            :key="idx"
+            :people="relation.people"
+            :children="relation.children"
+          />
+        </div>
+      </CollapseTransition>
     </template>
   </div>
 </template>
 <script>
 import Person from "./Person";
+import { CollapseTransition } from "vue2-transitions";
 
 export default {
   name: "Relation",
   components: {
-    Person
+    Person,
+    CollapseTransition
   },
   props: {
     people: Array,
@@ -41,28 +45,34 @@ export default {
 </script>
 <style scoped>
 .relation {
-  margin: 40px 0;
-  padding-left: 50px;
+  margin: 40px;
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 .expand-children {
-  height: 40px;
-  width: 40px;
+  height: 20px;
+  width: 20px;
   display: inline-block;
   border-radius: 50%;
-  background: green;
+  background: #080;
   vertical-align: middle;
   text-align: center;
-  line-height: 36px;
+  line-height: 18px;
+  transition: background 1s ease;
+}
+.expand-children:hover {
+  background: #12b012;
 }
 .expand-children.expanded {
-  background: red;
+  background: #ba2222;
+}
+.expand-children.expanded:hover {
+  background: #f00;
 }
 .expand-children::after {
   content: "+";
-  font-size: 35px;
+  font-size: 16px;
   color: white;
   cursor: pointer;
 }
@@ -70,6 +80,6 @@ export default {
   content: "-";
 }
 .all-children {
-    display: flex;
+  display: flex;
 }
 </style>
