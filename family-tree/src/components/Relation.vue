@@ -6,16 +6,17 @@
     <template v-if="children">
       <div
         class="expand-children"
-        :class="{expanded: showChildren}"
+        :class="{expanded: expanded || showChildren}"
         @click="showChildren=!showChildren"
       ></div>
       <CollapseTransition>
-        <div class="all-children" v-if="showChildren">
+        <div class="all-children" v-if="expanded || showChildren">
           <Relation
             v-for="(relation, idx) in children"
             :key="idx"
             :people="relation.people"
             :children="relation.children"
+            :expanded="expanded"
           />
         </div>
       </CollapseTransition>
@@ -34,7 +35,11 @@ export default {
   },
   props: {
     people: Array,
-    children: Array
+    children: Array,
+    expanded: {
+      type: Boolean,
+      default: false
+    }
   },
   data: function() {
     return {

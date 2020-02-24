@@ -23,28 +23,22 @@
         <IconConnect />
       </button>
     </div>
-    <div class="family" v-if="currentApp=='tree'">
-      <Relation
-        v-for="(relation, idx) in family"
-        :key="idx"
-        :people="relation.people"
-        :children="relation.children"
-      />
-    </div>
-    <FamilyTable class="family-table" :people="allData" v-if="currentApp=='table'" />
-    <RelationConnect
-      v-if="currentApp=='connect'"
-      :relations="relations"
-      :relationMap="relationMap"
-      :people="people"
-      :allPeople="allData"
-    ></RelationConnect>
+    <template v-if="initialized">
+      <FamilyTree class="family-tree" :people="people" v-if="currentApp=='tree'"></FamilyTree>
+      <FamilyTable class="family-table" :people="allData" v-if="currentApp=='table'"></FamilyTable>
+      <RelationConnect
+        class="family-connect"
+        :people="people"
+        :allPeople="allData"
+        v-if="currentApp=='connect'"
+      ></RelationConnect>
+    </template>
   </div>
 </template>
 
 <script>
-import Relation from "./components/Relation";
 import FamilyTable from "./components/FamilyTable";
+import FamilyTree from "./components/FamilyTree";
 import RelationConnect from "./components/RelationConnect";
 import axios from "axios";
 import IconTable from "./components/icons/IconTable";
@@ -54,8 +48,8 @@ import IconConnect from "./components/icons/IconConnect";
 export default {
   name: "App",
   components: {
-    Relation,
     FamilyTable,
+    FamilyTree,
     RelationConnect,
     IconTable,
     IconTree,
@@ -64,12 +58,9 @@ export default {
   data: function() {
     return {
       allData: [],
-      family: [],
-      relations: [],
       people: {},
-      relationMap: {},
-      pendingParents: {},
-      currentApp: "table"
+      currentApp: "table",
+      initialized: false
     };
   },
   mounted() {
@@ -79,81 +70,18 @@ export default {
       )
       .then(response => {
         this.allData = response.data.person;
-        this.parseRelations(response.data.person);
+        this.parsePeople(this.allData);
+        this.initialized = true;
       });
   },
   methods: {
-    parseRelations: function(people) {
-      const family = [];
+    parsePeople: function(people) {
+      const peopleMap = {};
       for (let i = 0; i < people.length; i++) {
         const person = people[i];
-        this.people[person.id] = person;
-        // Add to relation
-        if (person.spouse && this.people[person.spouse]) {
-          const relationshipIdx = this.relationMap[person.spouse];
-          this.relations[relationshipIdx].people.push(person);
-          this.relationMap[person.id] = relationshipIdx;
-        }
-        // Create relation
-        else {
-          this.relationMap[person.id] = this.relations.length;
-          this.relations.push({
-            people: [person]
-          });
-        }
-        const relIdx = this.relationMap[person.id];
-        const relation = this.relations[relIdx];
-
-        // Add to parent
-        if (person.father || person.mother) {
-          if (this.people[person.father]) {
-            const parentRelIdx = this.relationMap[person.father];
-            this.relations[parentRelIdx].children =
-              this.relations[parentRelIdx].children || [];
-            this.relations[parentRelIdx].children.push(relation);
-          } else if (this.people[person.mother]) {
-            const parentRelIdx = this.relationMap[person.mother];
-            this.relations[parentRelIdx].children =
-              this.relations[parentRelIdx].children || [];
-            this.relations[parentRelIdx].children.push(relation);
-          } else {
-            if (person.father) {
-              this.pendingParents[person.father] =
-                this.pendingParents[person.father] || [];
-              this.pendingParents[person.father].push(person.id);
-            }
-            if (person.mother) {
-              this.pendingParents[person.mother] =
-                this.pendingParents[person.mother] || [];
-              this.pendingParents[person.mother].push(person.id);
-            }
-          }
-        } else {
-          if (family.indexOf(relation) == -1) {
-            family.push(relation);
-          }
-        }
-
-        // Clean pending parents
-        if (Object.keys(this.pendingParents).indexOf("" + person.id) > -1) {
-          relation.children = relation.children || [];
-          const currentParent = this.pendingParents[person.id];
-          for (let i = 0; i < currentParent.length; i++) {
-            const currChildRelIdx = this.relationMap[currentParent[i]];
-            if (
-              relation.children.indexOf(this.relations[currChildRelIdx]) == -1
-            ) {
-              relation.children.push(this.relations[currChildRelIdx]);
-            }
-          }
-          delete this.pendingParents[person.id];
-        }
+        peopleMap[person.id] = person;
       }
-
-      this.family = family.filter(
-        rel =>
-          !rel.people.filter(person => person.father || person.mother).length
-      );
+      this.people = peopleMap;
     }
   }
 };
@@ -162,9 +90,6 @@ export default {
 <style>
 #app {
   padding-left: 40px;
-}
-.family {
-  display: flex;
 }
 .header {
   position: fixed;

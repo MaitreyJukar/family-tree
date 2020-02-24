@@ -6,13 +6,12 @@ Vue.config.productionTip = false
 
 Vue.component('VSelect', VSelect);
 
-Array.prototype.pushUnique = function () {
-  for (let i = 0; i < arguments.length; i++) {
-    if (this.indexOf(arguments[i]) == -1) {
-      this.push(arguments[i]);
-    }
+Array.prototype.pushUnique = function (val) {
+  if (this.indexOf(val) == -1) {
+    this.push(val);
+    return true;
   }
-  return this.length;
+  return false;
 }
 
 new Vue({
