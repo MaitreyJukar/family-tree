@@ -15,6 +15,13 @@
       >
         <IconTable />
       </button>
+      <button
+        class="header-button connect"
+        :class="{'active': currentApp == 'connect'}"
+        @click="currentApp = 'connect'"
+      >
+        <IconConnect />
+      </button>
     </div>
     <div class="family" v-if="currentApp=='tree'">
       <Relation
@@ -25,23 +32,34 @@
       />
     </div>
     <FamilyTable class="family-table" :people="allData" v-if="currentApp=='table'" />
+    <RelationConnect
+      v-if="currentApp=='connect'"
+      :relations="relations"
+      :relationMap="relationMap"
+      :people="people"
+      :allPeople="allData"
+    ></RelationConnect>
   </div>
 </template>
 
 <script>
 import Relation from "./components/Relation";
 import FamilyTable from "./components/FamilyTable";
+import RelationConnect from "./components/RelationConnect";
 import axios from "axios";
 import IconTable from "./components/icons/IconTable";
 import IconTree from "./components/icons/IconTree";
+import IconConnect from "./components/icons/IconConnect";
 
 export default {
   name: "App",
   components: {
     Relation,
     FamilyTable,
+    RelationConnect,
     IconTable,
-    IconTree
+    IconTree,
+    IconConnect
   },
   data: function() {
     return {
