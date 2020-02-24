@@ -115,6 +115,20 @@ export default {
     getAllRelatives: function(person, relatives = [], currPath, paths = []) {
       let basePath = currPath ? currPath : `${person.id}`;
 
+      if (person.spouse && relatives.indexOf(person.spouse) == -1) {
+        const currPath = `${basePath},${person.spouse}`;
+        if (relatives.pushUnique(person.spouse)) {
+          paths.pushUnique(currPath);
+        }
+
+        this.getAllRelatives(
+          this.people[person.spouse],
+          relatives,
+          currPath,
+          paths
+        );
+      }
+
       if (person.father) {
         const currPath = `${basePath},${person.father}`;
         if (relatives.pushUnique(person.father)) {
@@ -137,20 +151,6 @@ export default {
 
         this.getAllRelatives(
           this.people[person.mother],
-          relatives,
-          currPath,
-          paths
-        );
-      }
-
-      if (person.spouse && relatives.indexOf(person.spouse) == -1) {
-        const currPath = `${basePath},${person.spouse}`;
-        if (relatives.pushUnique(person.spouse)) {
-          paths.pushUnique(currPath);
-        }
-
-        this.getAllRelatives(
-          this.people[person.spouse],
           relatives,
           currPath,
           paths
