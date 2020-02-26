@@ -3,7 +3,10 @@
     <div class="person-image">
       <img :src="image" />
     </div>
-    <div class="person-name">{{shortName}}</div>
+    <div class="person-name">
+      <div>{{personInfo.firstName}}</div>
+      <div>{{personInfo.lastName}}</div>
+    </div>
     <div class="person-details">
       <div class="person-bday person-detail" v-if="personInfo.birthDate">{{birthday}}</div>
       <div
@@ -93,6 +96,7 @@ export default {
   border-radius: 50%;
   overflow: hidden;
   margin-bottom: 20px;
+  display: none;
 }
 
 img {
@@ -102,10 +106,12 @@ img {
 .person-name {
   margin: 5px;
   font-size: 12px;
+  text-align: center;
 }
 
 .person-details {
   margin: 5px;
   font-size: 10px;
+  text-align: center;
 }
 </style>
