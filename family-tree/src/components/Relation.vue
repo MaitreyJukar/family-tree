@@ -43,7 +43,7 @@ export default {
   },
   data: function() {
     return {
-      showChildren: false
+      showChildren: true
     };
   }
 };

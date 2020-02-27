@@ -1,5 +1,5 @@
 <template>
-  <div class="family">
+  <div class="family-tree">
     <Relation
       v-for="(relation, idx) in family"
       :key="idx"
@@ -121,7 +121,12 @@ export default {
 };
 </script>
 <style>
+.family-tree {
+  display: flex;
+}
 .family {
   display: flex;
+  border: 2px solid #ccc;
+  border-radius: 20px;
 }
 </style>
