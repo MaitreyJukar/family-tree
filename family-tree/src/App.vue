@@ -22,6 +22,13 @@
       >
         <IconConnect />
       </button>
+      <button
+        class="header-button find"
+        :class="{'active': currentApp == 'find'}"
+        @click="currentApp = 'find'"
+      >
+        <IconSearch />
+      </button>
     </div>
     <template v-if="initialized">
       <FamilyTree class="family-tree" :people="people" v-if="currentApp=='tree'"></FamilyTree>
@@ -32,6 +39,12 @@
         :allPeople="allData"
         v-if="currentApp=='connect'"
       ></RelationConnect>
+      <FindMe
+        class="family-find-me"
+        :people="people"
+        :allPeople="allData"
+        v-if="currentApp=='find'"
+      ></FindMe>
     </template>
   </div>
 </template>
@@ -39,11 +52,13 @@
 <script>
 import FamilyTable from "./components/FamilyTable";
 import FamilyTree from "./components/FamilyTree";
+import FindMe from "./components/FindMe";
 import RelationConnect from "./components/RelationConnect";
 import axios from "axios";
 import IconTable from "./components/icons/IconTable";
 import IconTree from "./components/icons/IconTree";
 import IconConnect from "./components/icons/IconConnect";
+import IconSearch from "./components/icons/IconSearch";
 
 export default {
   name: "App",
@@ -51,9 +66,11 @@ export default {
     FamilyTable,
     FamilyTree,
     RelationConnect,
+    FindMe,
     IconTable,
     IconTree,
-    IconConnect
+    IconConnect,
+    IconSearch
   },
   data: function() {
     return {
