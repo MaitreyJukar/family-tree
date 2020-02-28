@@ -50,7 +50,7 @@ export default {
 </script>
 <style scoped>
 .relation {
-  margin: 40px;
+  margin: 20px;
   display: flex;
   flex-direction: column;
   align-items: center;

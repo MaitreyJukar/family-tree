@@ -1,5 +1,12 @@
 <template>
-  <div class="person" :class="gender">
+  <div
+    class="person"
+    :class="gender"
+    v-tooltip="{
+								content: personInfo.id,
+								placement: 'top'
+							}"
+  >
     <div class="person-image">
       <img :src="image" />
     </div>
@@ -65,29 +72,27 @@ export default {
 </script>
 <style scoped>
 .person {
-  height: 170px;
-  width: 120px;
+  height: 100px;
+  width: 100px;
   display: inline-flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   border-radius: 20px;
-  background: black;
   font-size: 12px;
-  color: white;
   font-family: TrebuchetMS;
-  padding: 20px;
-  margin: 20px;
+  padding: 5px;
+  margin: 10px;
   vertical-align: middle;
   box-shadow: 3px 3px 5px 6px #ccc;
 }
 
 .person.male {
-  background: linear-gradient(to bottom, rgb(0, 198, 255), rgb(0, 114, 255));
+  border: 5px solid rgb(0, 198, 255);
 }
 
 .person.female {
-  background: linear-gradient(to bottom, rgb(157, 80, 187), rgb(110, 72, 170));
+  border: 5px solid rgb(157, 80, 187);
 }
 
 .person-image {
