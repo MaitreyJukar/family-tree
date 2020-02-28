@@ -1,10 +1,12 @@
 import Vue from 'vue'
 import App from './App.vue'
 import VSelect from 'vue-select'
+import VTooltip from 'v-tooltip'
 
 Vue.config.productionTip = false
 
 Vue.component('VSelect', VSelect);
+Vue.use(VTooltip);
 
 Array.prototype.pushUnique = function (val) {
   if (this.indexOf(val) == -1) {
