@@ -29,6 +29,13 @@
       >
         <IconSearch />
       </button>
+      <button
+        class="header-button event"
+        :class="{'active': currentApp == 'event'}"
+        @click="currentApp = 'event'"
+      >
+        <IconCalendar />
+      </button>
     </div>
     <template v-if="initialized">
       <FamilyTree class="family-tree" :people="people" v-if="currentApp=='tree'"></FamilyTree>
@@ -45,6 +52,13 @@
         :allPeople="allData"
         v-if="currentApp=='find'"
       ></FindMe>
+      <Events
+        class="family-events"
+        :people="allData"
+        :peopleMap="people"
+        :anniversaries="allAnniversaryData"
+        v-if="currentApp=='event'"
+      ></Events>
     </template>
   </div>
 </template>
@@ -54,11 +68,13 @@ import FamilyTable from "./components/FamilyTable";
 import FamilyTree from "./components/FamilyTree";
 import FindMe from "./components/FindMe";
 import RelationConnect from "./components/RelationConnect";
+import Events from "./components/Events";
 import axios from "axios";
 import IconTable from "./components/icons/IconTable";
 import IconTree from "./components/icons/IconTree";
 import IconConnect from "./components/icons/IconConnect";
 import IconSearch from "./components/icons/IconSearch";
+import IconCalendar from "./components/icons/IconCalendar";
 
 export default {
   name: "App",
@@ -67,14 +83,17 @@ export default {
     FamilyTree,
     RelationConnect,
     FindMe,
+    Events,
     IconTable,
     IconTree,
     IconConnect,
-    IconSearch
+    IconSearch,
+    IconCalendar
   },
   data: function() {
     return {
       allData: [],
+      allAnniversaryData: [],
       people: {},
       currentApp: "table",
       initialized: false
@@ -83,12 +102,19 @@ export default {
   mounted() {
     axios
       .get(
-        "https://v2-api.sheety.co/6969442d9e95310b90a6eb3a9ca14fa3/familyTree/person"
+        "https://v2-api.sheety.co/6969442d9e95310b90a6eb3a9ca14fa3/familyTree/anniversary"
       )
       .then(response => {
-        this.allData = response.data.person;
-        this.parsePeople(this.allData);
-        this.initialized = true;
+        this.allAnniversaryData = response.data.anniversary;
+        axios
+          .get(
+            "https://v2-api.sheety.co/6969442d9e95310b90a6eb3a9ca14fa3/familyTree/person"
+          )
+          .then(response => {
+            this.allData = response.data.person;
+            this.parsePeople(this.allData);
+            this.initialized = true;
+          });
       });
   },
   methods: {
