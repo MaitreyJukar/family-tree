@@ -3,7 +3,7 @@
     class="person"
     :class="gender"
     v-tooltip="{
-								content: personInfo.id,
+								content: personInfo.personId,
 								placement: 'top'
 							}"
   >

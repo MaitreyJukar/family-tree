@@ -45,7 +45,7 @@ export default {
       return this.allPeople
         .map(person => {
           return {
-            id: person.id,
+            personId: person.personId,
             fullName: `${person.firstName} ${person.lastName}`
           };
         })
@@ -59,10 +59,10 @@ export default {
     },
     findMe: function() {
       this.relatedPeople = null;
-      const person = this.people[this.person.id];
+      const person = this.people[this.person.personId];
       const relatives = this.getAllRelatives(person);
       this.relatedPeople = this.personIDsToObject([
-        this.person.id,
+        this.person.personId,
         ...relatives
       ]);
     },

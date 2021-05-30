@@ -96,7 +96,7 @@ export default {
       const peopleMap = {};
       for (let i = 0; i < people.length; i++) {
         const person = people[i];
-        peopleMap[person.id] = person;
+        peopleMap[person.personId] = person;
       }
       this.people = peopleMap;
     }

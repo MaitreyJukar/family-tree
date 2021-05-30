@@ -47,16 +47,16 @@ export default {
         if (person.spouse && people[person.spouse]) {
           const relationshipIdx = this.relationMap[person.spouse];
           this.relations[relationshipIdx].people.push(person);
-          this.relationMap[person.id] = relationshipIdx;
+          this.relationMap[person.personId] = relationshipIdx;
         }
         // Create relation
         else {
-          this.relationMap[person.id] = this.relations.length;
+          this.relationMap[person.personId] = this.relations.length;
           this.relations.push({
             people: [person]
           });
         }
-        const relIdx = this.relationMap[person.id];
+        const relIdx = this.relationMap[person.personId];
         const relation = this.relations[relIdx];
 
         // Add to parent
@@ -78,12 +78,12 @@ export default {
             if (person.father) {
               this.pendingParents[person.father] =
                 this.pendingParents[person.father] || [];
-              this.pendingParents[person.father].push(person.id);
+              this.pendingParents[person.father].push(person.personId);
             }
             if (person.mother) {
               this.pendingParents[person.mother] =
                 this.pendingParents[person.mother] || [];
-              this.pendingParents[person.mother].push(person.id);
+              this.pendingParents[person.mother].push(person.personId);
             }
           }
         } else {
@@ -93,9 +93,9 @@ export default {
         }
 
         // Clean pending parents
-        if (Object.keys(this.pendingParents).indexOf("" + person.id) > -1) {
+        if (Object.keys(this.pendingParents).indexOf("" + person.personId) > -1) {
           relation.children = relation.children || [];
-          const currentParent = this.pendingParents[person.id];
+          const currentParent = this.pendingParents[person.personId];
           for (let i = 0; i < currentParent.length; i++) {
             const currChildRelIdx = this.relationMap[currentParent[i]];
             if (
@@ -104,7 +104,7 @@ export default {
               relation.children.push(this.relations[currChildRelIdx]);
             }
           }
-          delete this.pendingParents[person.id];
+          delete this.pendingParents[person.personId];
         }
       }
 

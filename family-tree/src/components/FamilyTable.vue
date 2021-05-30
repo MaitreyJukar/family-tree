@@ -24,8 +24,8 @@
         </tr>
       </thead>
       <tbody slot="body" slot-scope="sort">
-        <tr v-for="value in sort.values" :key="value.id">
-          <td>{{ value.id }}</td>
+        <tr v-for="value in sort.values" :key="value.personId">
+          <td>{{ value.personId }}</td>
           <td>{{ value.firstName }}</td>
           <td>{{ value.lastName }}</td>
           <td>{{ value.birthDate }}</td>

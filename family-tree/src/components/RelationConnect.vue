@@ -54,7 +54,7 @@ export default {
       return this.allPeople
         .map(person => {
           return {
-            id: person.id,
+            personId: person.personId,
             fullName: `${person.firstName} ${person.lastName}`
           };
         })
@@ -72,8 +72,8 @@ export default {
     },
     relate: function() {
       this.relatedPeople = null;
-      const person1 = this.people[this.person1.id];
-      const person2 = this.people[this.person2.id];
+      const person1 = this.people[this.person1.personId];
+      const person2 = this.people[this.person2.personId];
       let relation = this.checkBasicRelation(person1, person2);
       if (!relation) {
         relation = this.checkDeeperRelation(person1, person2);
@@ -83,14 +83,14 @@ export default {
     },
     checkBasicRelation: function(person1, person2) {
       // Check himself
-      if (person1.id == person2.id) {
-        return this.personIDsToObject([person1.id]);
-      } else if (person1.id == person2.father) {
-        return this.personIDsToObject([person1.id, person2.id]);
-      } else if (person1.id == person2.mother) {
-        return this.personIDsToObject([person1.id, person2.id]);
-      } else if (person1.father == person2.id || person1.mother == person2.id) {
-        return this.personIDsToObject([person1.id, person2.id]);
+      if (person1.personId == person2.personId) {
+        return this.personIDsToObject([person1.personId]);
+      } else if (person1.personId == person2.father) {
+        return this.personIDsToObject([person1.personId, person2.personId]);
+      } else if (person1.personId == person2.mother) {
+        return this.personIDsToObject([person1.personId, person2.personId]);
+      } else if (person1.father == person2.personId || person1.mother == person2.personId) {
+        return this.personIDsToObject([person1.personId, person2.personId]);
       }
       return "";
     },
@@ -112,7 +112,7 @@ export default {
       return null;
     },
     getAllRelatives: function(person, relatives = [], currPath, paths = []) {
-      let basePath = currPath ? currPath : `${person.id}`;
+      let basePath = currPath ? currPath : `${person.personId}`;
 
       if (person.spouse && relatives.indexOf(person.spouse) == -1) {
         const currPath = `${basePath},${person.spouse}`;
